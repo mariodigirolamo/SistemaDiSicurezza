@@ -1,0 +1,55 @@
+{
+  "project_info": {
+    "project_number": "1053369124759",
+    "firebase_url": "https://provamario-a2c84.firebaseio.com",
+    "project_id": "provamario-a2c84",
+    "storage_bucket": "provamario-a2c84.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1053369124759:android:13c3c6a65bcbec53",
+        "android_client_info": {
+          "package_name": "com.example.myapplication"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "1053369124759-v99u1p9u3djstifcke14dv0bi5rhj2vm.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.myapplication",
+            "certificate_hash": "49ed54d6a6047fceb6dbeefe4338041311d95856"
+          }
+        },
+        {
+          "client_id": "1053369124759-g8dtool25bi79poouoht0gnv6iolb9cs.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBERApOQClAmhk382AUNRiDryPYtDTdDu4"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "1053369124759-g8dtool25bi79poouoht0gnv6iolb9cs.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
