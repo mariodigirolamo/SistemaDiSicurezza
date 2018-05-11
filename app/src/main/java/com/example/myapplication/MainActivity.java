@@ -15,13 +15,21 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.database.IgnoreExtraProperties;
 
+
 public class MainActivity extends AppCompatActivity {
 
+    private String link = "https://provamario-a2c84.firebaseio.com/";
+
     private TextView vIndicatore;
+    private TextView vRef2;
+    private TextView vRef;
     private Button vclick;
     private String disp;
     private String disp2;
+    private String chi;
+    private String chi2;
     private boolean first;
+    private String off = String.valueOf(0);
 
     // Write a message to the database
     FirebaseDatabase database = FirebaseDatabase.getInstance();
@@ -49,16 +57,39 @@ public class MainActivity extends AppCompatActivity {
 
         vIndicatore = findViewById(R.id.Indicatore);
         vclick = findViewById(R.id.click);
+        vRef = findViewById(R.id.Ref);
+        vRef2 = findViewById(R.id.Ref2);
 
         ValueEventListener listen = new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
-                 {
+
                     disp =   dataSnapshot.getValue().toString();
 
+                    vRef.setText("Fumo" + disp);
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        };
+
+        ValueEventListener listen1 = new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+
+                disp2 = dataSnapshot.getValue().toString();
 
 
+                if (disp2.equals("1")) {
+                    vRef2.setText("Movimento" + disp2);
                 }
+
+                if (disp2.equals("0")) {
+                    vRef2.setText("Nessun movimento" + disp2);
+                }
+
             }
 
             @Override
@@ -68,13 +99,14 @@ public class MainActivity extends AppCompatActivity {
         };
 
         Fumo.addValueEventListener(listen);
-        Movimento.addValueEventListener(listen);
+        Movimento.addValueEventListener(listen1);
 
         vclick.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
 
-                vIndicatore.setText(disp);
+                vRef.setText("Nessun Movimento.");
+                vRef2.setText("Nessun Movimento.");
 
 
                 //Movimento.setValue(disp);
