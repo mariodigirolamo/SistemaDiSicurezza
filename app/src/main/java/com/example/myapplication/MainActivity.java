@@ -1,11 +1,15 @@
 package com.example.myapplication;
 
 import android.os.Bundle;
-import android.renderscript.Sampler;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
+import android.telephony.PhoneNumberFormattingTextWatcher;
+import android.text.Editable;
+import android.text.TextWatcher;
+import android.view.KeyEvent;
 import android.view.View;
+import android.view.inputmethod.EditorInfo;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.TextView;
 
 import com.google.firebase.database.DataSnapshot;
@@ -20,16 +24,12 @@ public class MainActivity extends AppCompatActivity {
 
     private String link = "https://provamario-a2c84.firebaseio.com/";
 
-    private TextView vIndicatore;
     private TextView vRef2;
     private TextView vRef;
     private Button vclick;
     private String disp;
     private String disp2;
-    private String chi;
-    private String chi2;
-    private boolean first;
-    private String off = String.valueOf(0);
+    private EditText vphone;
 
     // Write a message to the database
     FirebaseDatabase database = FirebaseDatabase.getInstance();
@@ -43,22 +43,24 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        vclick = findViewById(R.id.click);
+        vRef = findViewById(R.id.Ref);
+        vRef2 = findViewById(R.id.Ref2);
+        vphone = findViewById(R.id.phone);
+
+        vclick.setVisibility(View.GONE);
+        vRef.setVisibility(View.GONE);
+        vRef2.setVisibility(View.GONE);
+
+
+
         //è la prima volta che lo usi?
         //Inserisci codice sul database coi 2 figli
         //se clicca sul tasto registrati first = true;
         //se clicca sul tasto login first = false;
 
-        DatabaseReference Utente1 = database.getReference("Utente1");
-        Utente1.setValue("Mario");
-        Utente1.child("Fumo").setValue("0");
-        Utente1.child("Moviento").setValue("0");
 
 
-
-        vIndicatore = findViewById(R.id.Indicatore);
-        vclick = findViewById(R.id.click);
-        vRef = findViewById(R.id.Ref);
-        vRef2 = findViewById(R.id.Ref2);
 
         ValueEventListener listen = new ValueEventListener() {
             @Override
@@ -100,6 +102,30 @@ public class MainActivity extends AppCompatActivity {
 
         Fumo.addValueEventListener(listen);
         Movimento.addValueEventListener(listen1);
+
+        vphone.setOnEditorActionListener(new TextView.OnEditorActionListener() {
+            @Override
+            public boolean onEditorAction(TextView textView, int i, KeyEvent keyEvent) {
+
+                boolean handles = false;
+                if(i == EditorInfo.IME_ACTION_DONE) {
+
+                    String inputText = vphone.getText().toString();
+
+                    DatabaseReference Utente = database.getReference(inputText);
+                    Utente.setValue(inputText);
+                    Utente.child("Fumo").setValue(0);
+                    Utente.child("Movimento").setValue(0);
+
+                    vclick.setVisibility(View.VISIBLE);
+                    vRef.setVisibility(View.VISIBLE);
+                    vRef2.setVisibility(View.VISIBLE);
+                    vphone.setVisibility(View.GONE);
+
+                }
+                return false;
+            }
+        });
 
         vclick.setOnClickListener(new View.OnClickListener() {
             @Override
