@@ -66,13 +66,6 @@ public class MainActivity extends AppCompatActivity {
         vRef.setVisibility(View.GONE);
         vRef2.setVisibility(View.GONE);
 
-
-
-        //è la prima volta che lo usi?
-        //Inserisci codice sul database coi 2 figli
-        //se clicca sul tasto registrati first = true;
-        //se clicca sul tasto login first = false;
-
         //Intent intent = new Intent(getApplicationContext(), Login.class);
         //startActivityForResult(intent, REQUEST_CHIAMA);
         final ValueEventListener listen = new ValueEventListener() {
@@ -82,11 +75,11 @@ public class MainActivity extends AppCompatActivity {
                 disp =   dataSnapshot.getValue().toString();
 
                 if (disp.equals("1")) {
-                    vRef.setText("Movimento" + disp);
+                    vRef.setText("Attenzione, fumo rilevato!");
                 }
 
                 if (disp.equals("0")) {
-                    vRef.setText("Movimento" + disp);
+                    vRef.setText("Non è stato rilevato fumo.");
                 }
             }
 
@@ -104,11 +97,11 @@ public class MainActivity extends AppCompatActivity {
 
 
                 if (disp2.equals("1")) {
-                    vRef2.setText("Movimento" + disp2);
+                    vRef2.setText("Attenzione, movimento rilevato!");
                 }
 
                 if (disp2.equals("0")) {
-                    vRef2.setText("Movimento" + disp2);
+                    vRef2.setText("Non è stato rilevato movimento.");
                 }
 
             }
@@ -143,57 +136,6 @@ public class MainActivity extends AppCompatActivity {
         });
 
         DatabaseReference Utente = database.getReference(numero1);
-        Utente.setValue(numero1);
-        Utente.child("Fumo").setValue(0);
-        Utente.child("Movimento").setValue(0);
-
-   /*     ValueEventListener listen = new ValueEventListener() {
-            @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
-
-                disp =   dataSnapshot.getValue().toString();
-
-                if (disp.equals("1")) {
-                    vRef.setText("Movimento" + disp);
-                }
-
-                if (disp.equals("0")) {
-                    vRef.setText("Movimento" + disp);
-                }
-            }
-
-            @Override
-            public void onCancelled(DatabaseError databaseError) {
-
-            }
-        };      */
-
-    /*    ValueEventListener listen1 = new ValueEventListener() {
-            @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
-
-                disp2 = dataSnapshot.getValue().toString();
-
-
-                if (disp2.equals("1")) {
-                    vRef2.setText("Movimento" + disp2);
-                }
-
-                if (disp2.equals("0")) {
-                    vRef2.setText("Movimento" + disp2);
-                }
-
-            }
-
-            @Override
-            public void onCancelled(DatabaseError databaseError) {
-
-            }
-        };   */
-
-        Utente.child("Fumo").addValueEventListener(listen);
-        Utente.child("Movimento").addValueEventListener(listen1);
-
 
         vclick.setOnClickListener(new refList(Utente));
 
@@ -253,18 +195,9 @@ public class MainActivity extends AppCompatActivity {
         @Override
         public void onClick(View v)
         {
-            ref.child("Fumo").setValue("0");
-            ref.child("Movimento").setValue("0");
-
-            ref.child("Fumo").setValue("0");
-            ref.child("Movimento").setValue("0");
-
             DatabaseReference Utente = database.getReference(numero1);
             Utente.child("Fumo").setValue(0);
             Utente.child("Movimento").setValue(0);
-
-            vRef.setText("Niente Fumo.");
-            vRef2.setText("Nessun Movimento.");
         }
 
     };
