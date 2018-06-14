@@ -25,6 +25,8 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
+import java.util.Calendar;
+
 public class MainActivity extends AppCompatActivity {
 
     //private String link = "https://provamario-a2c84.firebaseio.com/";
@@ -34,6 +36,7 @@ public class MainActivity extends AppCompatActivity {
     private String numero1;
     public String numero2;
     private int tick = 0;
+    private int tickm = 0;
 
     private FloatingActionButton vcrono;
     private Button vinvia;
@@ -56,6 +59,9 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         final int store[] = new int [5];
+        final int storem[] = new int [5];
+        final String dataf [] = new String [5];
+        final String datam [] = new String [5];
 
         Intent intent = new Intent(getApplicationContext(), Login.class);
         startActivity(intent);
@@ -90,6 +96,7 @@ public class MainActivity extends AppCompatActivity {
                 if (disp.equals("1")) {
 
                     store[tick] = 1;
+                    dataf[tick] = Calendar.getInstance().getTime().toString();
 
                     tick = tick + 1;
 
@@ -148,6 +155,12 @@ public class MainActivity extends AppCompatActivity {
 
 
                 if (disp2.equals("1")) {
+
+                    storem[tickm] = 1;
+                    datam[tickm] = Calendar.getInstance().getTime().toString();
+
+                    tickm = tickm + 1;
+
                     vRef2.setText("Attenzione, movimento rilevato!");
                     vRef2.setBackgroundColor(Color.RED);
                     NotificationCompat.Builder mBuilder =
@@ -230,15 +243,36 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
 
-                if(tick == 5){
+                if(tick == 5 && tickm == 5){
                     Intent i = new Intent(getApplicationContext(), Grafico.class);
+
+                    i.putExtra("datom1", storem[0]);
+                    i.putExtra("datom2", storem[1]);
+                    i.putExtra("datom3", storem[2]);
+                    i.putExtra("datom4", storem[3]);
+                    i.putExtra("datom5", storem[4]);
+
+                    i.putExtra("datam1", datam[0]);
+                    i.putExtra("datam2", datam[1]);
+                    i.putExtra("datam3", datam[2]);
+                    i.putExtra("datam4", datam[3]);
+                    i.putExtra("datam5", datam[4]);
+
+                    i.putExtra("dataf1", dataf[0]);
+                    i.putExtra("dataf2", dataf[1]);
+                    i.putExtra("dataf3", dataf[2]);
+                    i.putExtra("dataf4", dataf[3]);
+                    i.putExtra("dataf5", dataf[4]);
+
                     i.putExtra("dato1", store[0]);
                     i.putExtra("dato2", store[1]);
                     i.putExtra("dato3", store[2]);
                     i.putExtra("dato4", store[3]);
                     i.putExtra("dato5", store[4]);
                     startActivity(i);
+
                     tick = 0;
+                    tickm = 0;
                 }
 
                 else{
