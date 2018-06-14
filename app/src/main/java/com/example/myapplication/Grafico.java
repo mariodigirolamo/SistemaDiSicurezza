@@ -54,8 +54,7 @@ public class Grafico extends AppCompatActivity {
             String datos4 = String.valueOf(dato4);
             String datos5 = String.valueOf(dato5);
 
-            vprova.setText(datos1 + datos2 + datos3 + datos4 + datos5 + datam2);
-
+            vprova.setText("Ultime segnalazioni sul fumo:"+"\n"+dataf1+"\n"+dataf2+"\n"+dataf3+"\n"+dataf4+"\n"+dataf5);
 
             vfuga.setOnClickListener(new View.OnClickListener() {
                 @Override
