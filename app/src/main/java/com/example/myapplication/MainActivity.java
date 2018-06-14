@@ -33,6 +33,7 @@ public class MainActivity extends AppCompatActivity {
 
     private String numero1;
     public String numero2;
+    private int tick = 0;
 
     private FloatingActionButton vcrono;
     private Button vinvia;
@@ -54,6 +55,7 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        final int store[] = new int [5];
 
         Intent intent = new Intent(getApplicationContext(), Login.class);
         startActivity(intent);
@@ -86,6 +88,11 @@ public class MainActivity extends AppCompatActivity {
                 disp =   dataSnapshot.getValue().toString();
 
                 if (disp.equals("1")) {
+
+                    store[tick] = 1;
+
+                    tick = tick + 1;
+
                     vRef.setText("Attenzione, fumo rilevato!");
                     vRef.setBackgroundColor(Color.RED);
                     NotificationCompat.Builder mBuilder =
@@ -118,6 +125,8 @@ public class MainActivity extends AppCompatActivity {
                     }
 
                     mNotificationManager.notify(0, mBuilder.build());
+
+
                 }
 
                 /*if (disp.equals("0")) {
@@ -216,6 +225,27 @@ public class MainActivity extends AppCompatActivity {
         DatabaseReference Utente = database.getReference(numero1);
 
         vclick.setOnClickListener(new refList(Utente));
+
+        vcrono.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                if(tick == 5){
+                    Intent i = new Intent(getApplicationContext(), Grafico.class);
+                    i.putExtra("dato1", store[0]);
+                    i.putExtra("dato2", store[1]);
+                    i.putExtra("dato3", store[2]);
+                    i.putExtra("dato4", store[3]);
+                    i.putExtra("dato5", store[4]);
+                    startActivity(i);
+                    tick = 0;
+                }
+
+                else{
+
+                }
+            }
+        });
 
     }
 
