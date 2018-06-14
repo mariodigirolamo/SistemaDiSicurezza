@@ -19,6 +19,8 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
+
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -33,6 +35,7 @@ public class MainActivity extends AppCompatActivity {
 
     private final String TAG = "LIFE_MAIN";
 
+    private int test = 0;
     private String numero1;
     public String numero2;
     private int tick = 0;
@@ -243,7 +246,7 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
 
-                if(tick == 5 && tickm == 5){
+                if((tick == 5 && tickm == 5) && test == 0 || test == 1){
                     Intent i = new Intent(getApplicationContext(), Grafico.class);
 
                     i.putExtra("datom1", storem[0]);
@@ -273,10 +276,13 @@ public class MainActivity extends AppCompatActivity {
 
                     tick = 0;
                     tickm = 0;
+                    test = 1;
                 }
 
-                else{
 
+                if ((tick == 0 && tickm == 0) && test == 0){Toast.makeText(getApplicationContext(),"Non ci sono anomalia da mostrare.", Toast.LENGTH_LONG).show();}
+                if(((tick >0 && tick <5) || (tickm >0 && tickm <5)) && test == 0){
+                    Toast.makeText(getApplicationContext(),"Non ci sono abbastanza dati da mostrare.", Toast.LENGTH_LONG).show();
                 }
             }
         });
