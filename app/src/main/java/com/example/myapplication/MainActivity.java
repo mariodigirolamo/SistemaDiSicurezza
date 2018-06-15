@@ -61,10 +61,15 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        //stiamo caricando il layout della mia activity_main
+
         final int store[] = new int [5];
         final int storem[] = new int [5];
         final String dataf [] = new String [5];
         final String datam [] = new String [5];
+
+        //Ho creato dei vettori nei quali mettere i dati del fumo e del movimento con le rispetteve date
+        //ed ora nelle quali ho inserito il dato
 
         Intent intent = new Intent(getApplicationContext(), Login.class);
         startActivity(intent);
@@ -90,6 +95,9 @@ public class MainActivity extends AppCompatActivity {
 
         //Intent intent = new Intent(getApplicationContext(), Login.class);
         //startActivityForResult(intent, REQUEST_CHIAMA);
+
+        //Di seguito scrivo l'ascoltatore di cambio dati nel database
+
         final ValueEventListener listen = new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
@@ -105,6 +113,9 @@ public class MainActivity extends AppCompatActivity {
 
                     vRef.setText("Attenzione, fumo rilevato!");
                     vRef.setBackgroundColor(Color.RED);
+
+                    //Sto creando la notifica
+
                     NotificationCompat.Builder mBuilder =
                             new NotificationCompat.Builder(getApplicationContext(), "notify_001");
                     Intent ii = new Intent(getApplicationContext(), MainActivity.class);
