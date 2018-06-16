@@ -2,6 +2,8 @@ package com.example.myapplication;
 
 import android.app.NotificationChannel;
 import android.app.TaskStackBuilder;
+import android.media.RingtoneManager;
+import android.net.Uri;
 import android.os.Build;
 import android.support.v4.app.NotificationCompat;
 import android.support.v7.app.NotificationCompat.Builder;
@@ -47,9 +49,14 @@ public class MainActivity extends AppCompatActivity {
     private TextView vRef2;
     private TextView vRef;
     private Button vclick;
-    private String disp;
-    private String disp2;
+    private String disp = "meh";
+    private String disp2 = "Meh";
     private EditText vphone;
+
+    final int store[] = new int [5];
+    final int storem[] = new int [5];
+    final String dataf [] = new String [5];
+    final String datam [] = new String [5];
 
     // Write a message to the database
     FirebaseDatabase database = FirebaseDatabase.getInstance();
@@ -64,10 +71,10 @@ public class MainActivity extends AppCompatActivity {
 
         //stiamo caricando il layout della mia activity_main
 
-        final int store[] = new int [5];
+        /*final int store[] = new int [5];
         final int storem[] = new int [5];
         final String dataf [] = new String [5];
-        final String datam [] = new String [5];
+        final String datam [] = new String [5];*/
 
         //Ho creato dei vettori nei quali mettere i dati del fumo e del movimento con le rispetteve date
         //ed ora nelle quali ho inserito il dato
@@ -103,14 +110,20 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
 
-                disp =   dataSnapshot.getValue().toString();
+                if(dataSnapshot.getValue() != null) {
+                    disp = dataSnapshot.getValue().toString();
+                }
 
                 if (disp.equals("1")) {
 
                     store[tick] = 1;
                     dataf[tick] = Calendar.getInstance().getTime().toString();
 
-                    tick = tick + 1;
+                    if(tick < 5) {
+                        tick = tick + 1;
+                    }
+
+                    if(tick == 5){tick = 0; test = 1;}
 
                     vRef.setText("\n" + "Attenzione, fumo rilevato!");
                     vRef.setBackgroundColor(Color.RED);
@@ -127,6 +140,9 @@ public class MainActivity extends AppCompatActivity {
                     bigText.setBigContentTitle("Anomalia fumo.");
                     bigText.setSummaryText("Rilevata anomalia di tipo fumo, eseguire controllo dell'area.");
 
+                    Uri uri= RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
+
+                    mBuilder.setSound(uri);
                     mBuilder.setAutoCancel(true);
                     mBuilder.setContentIntent(pendingIntent);
                     mBuilder.setSmallIcon(R.mipmap.ic_launcher_round);
@@ -166,7 +182,9 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
 
-                disp2 = dataSnapshot.getValue().toString();
+                if(dataSnapshot.getValue() != null) {
+                    disp2 = dataSnapshot.getValue().toString();
+                }
 
 
                 if (disp2.equals("1")) {
@@ -174,7 +192,11 @@ public class MainActivity extends AppCompatActivity {
                     storem[tickm] = 1;
                     datam[tickm] = Calendar.getInstance().getTime().toString();
 
-                    tickm = tickm + 1;
+                    if(tickm < 5) {
+                        tickm = tickm + 1;
+                    }
+
+                    if(tickm == 5){tickm = 0; test = 1;}
 
                     vRef2.setText("\n" + "Attenzione, movimento rilevato!");
                     vRef2.setBackgroundColor(Color.RED);
@@ -188,6 +210,9 @@ public class MainActivity extends AppCompatActivity {
                     bigText.setBigContentTitle("Anomalia movimento.");
                     bigText.setSummaryText("Rilevata anomalia di tipo movimento, eseguire controllo dell'area.");
 
+                    Uri uri= RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
+
+                    mBuilder.setSound(uri);
                     mBuilder.setAutoCancel(true);
                     mBuilder.setContentIntent(pendingIntent);
                     mBuilder.setSmallIcon(R.mipmap.ic_launcher_round);
@@ -292,7 +317,7 @@ public class MainActivity extends AppCompatActivity {
                 }
 
 
-                if ((tick == 0 && tickm == 0) && test == 0){Toast.makeText(getApplicationContext(),"Non ci sono anomalia da mostrare.", Toast.LENGTH_LONG).show();}
+                if ((tick == 0 && tickm == 0) && test == 0){Toast.makeText(getApplicationContext(),"Non ci sono anomalie da mostrare.", Toast.LENGTH_LONG).show();}
                 if(((tick >0 && tick <5) || (tickm >0 && tickm <5)) && test == 0){
                     Toast.makeText(getApplicationContext(),"Non ci sono abbastanza dati da mostrare.", Toast.LENGTH_LONG).show();
                 }
