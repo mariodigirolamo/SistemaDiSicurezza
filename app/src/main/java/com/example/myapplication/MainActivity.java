@@ -18,6 +18,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -88,10 +89,10 @@ public class MainActivity extends AppCompatActivity {
         vclick.setVisibility(View.GONE);
         vRef.setVisibility(View.GONE);
         vRef2.setVisibility(View.GONE);
-        vRef.setBackgroundColor(Color.parseColor("#FFFFFF"));
-        vRef2.setBackgroundColor(Color.parseColor("#FFFFFF"));
-        vRef.setText("Niente fumo rilevato.");
-        vRef2.setText("Nessun movimento rilevato");
+        vRef.setBackgroundColor(Color.WHITE);
+        vRef2.setBackgroundColor(Color.WHITE);
+        vRef.setText("\n" + "Niente fumo rilevato.");
+        vRef2.setText("\n" + "Nessun movimento rilevato");
 
         //Intent intent = new Intent(getApplicationContext(), Login.class);
         //startActivityForResult(intent, REQUEST_CHIAMA);
@@ -111,7 +112,7 @@ public class MainActivity extends AppCompatActivity {
 
                     tick = tick + 1;
 
-                    vRef.setText("Attenzione, fumo rilevato!");
+                    vRef.setText("\n" + "Attenzione, fumo rilevato!");
                     vRef.setBackgroundColor(Color.RED);
 
                     //Sto creando la notifica
@@ -175,7 +176,7 @@ public class MainActivity extends AppCompatActivity {
 
                     tickm = tickm + 1;
 
-                    vRef2.setText("Attenzione, movimento rilevato!");
+                    vRef2.setText("\n" + "Attenzione, movimento rilevato!");
                     vRef2.setBackgroundColor(Color.RED);
                     NotificationCompat.Builder mBuilder =
                             new NotificationCompat.Builder(getApplicationContext().getApplicationContext(), "notify_001");
@@ -357,10 +358,10 @@ public class MainActivity extends AppCompatActivity {
             DatabaseReference Utente = database.getReference(numero1);
             Utente.child("Fumo").setValue(0);
             Utente.child("Movimento").setValue(0);
-            vRef.setText("Niente fumo rilevato.");
-            vRef2.setText("Nessun movimento rilevato.");
-            vRef.setBackgroundColor(Color.parseColor("#FFFFFF"));
-            vRef2.setBackgroundColor(Color.parseColor("#FFFFFF"));
+            vRef.setText("\n" + "Niente fumo rilevato.");
+            vRef2.setText("\n" +"Nessun movimento rilevato.");
+            vRef.setBackgroundColor(Color.WHITE);
+            vRef2.setBackgroundColor(Color.WHITE);
         }
 
     };
