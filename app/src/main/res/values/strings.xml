@@ -1,6 +1,7 @@
 <resources>
     <string name="app_name">Sistema Di Sicurezza</string>
     <string name="Indicatore">0</string>
-    <string name="Ref" />
-    <string name="Ref2" />
+    <string name="statogas">"Non è stata rilevata alcuna anomalia di gas."</string>
+    <string name="dichiara">Se premi il tasto esci, se l\'app verrà chiusa resterà tale e riceverai notifiche.
+    Se premi riavvia, l\'app ripartirà e riceverai notifiche.</string>
 </resources>

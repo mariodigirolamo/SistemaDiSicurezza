@@ -1,12 +1,10 @@
 package com.example.myapplication;
 
 import android.app.NotificationChannel;
-import android.app.TaskStackBuilder;
 import android.media.RingtoneManager;
 import android.net.Uri;
 import android.os.Build;
 import android.support.v4.app.NotificationCompat;
-import android.support.v7.app.NotificationCompat.Builder;
 import android.app.Notification;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
@@ -20,7 +18,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.ImageView;
+import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -31,6 +29,7 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
 import java.util.Calendar;
+import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -39,6 +38,7 @@ public class MainActivity extends AppCompatActivity {
     private final String TAG = "LIFE_MAIN";
 
     private int test = 0;
+    private String fin = "1";
     private String numero1;
     public String numero2;
     private int tick = 0;
@@ -53,16 +53,17 @@ public class MainActivity extends AppCompatActivity {
     private String disp2 = "Meh";
     private EditText vphone;
 
+    //Ho creato dei vettori nei quali mettere i dati del fumo e del movimento con le rispetteve date
+    //ed ora nelle quali ho inserito il dato
+
     final int store[] = new int [5];
     final int storem[] = new int [5];
     final String dataf [] = new String [5];
     final String datam [] = new String [5];
+    final String nome [] = new String [2];
+    final String stato [] = new String [2];
 
-    // Write a message to the database
     FirebaseDatabase database = FirebaseDatabase.getInstance();
-
-    //DatabaseReference Movimento = database.getReference("Movimento");
-    //DatabaseReference Fumo = database.getReference("Fumo");
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -71,38 +72,32 @@ public class MainActivity extends AppCompatActivity {
 
         //stiamo caricando il layout della mia activity_main
 
-        /*final int store[] = new int [5];
-        final int storem[] = new int [5];
-        final String dataf [] = new String [5];
-        final String datam [] = new String [5];*/
-
-        //Ho creato dei vettori nei quali mettere i dati del fumo e del movimento con le rispetteve date
-        //ed ora nelle quali ho inserito il dato
-
         Intent intent = new Intent(getApplicationContext(), Login.class);
         startActivity(intent);
 
+        nome [0] = "Fumo"; nome [1] = "Movimento";
+
+        stato [0] = "0"; stato [1] = "0";
+
+        final ListView vlistaSensori = (ListView) findViewById(R.id.listaSensori);
+
+        final AdapterPersonale adapter = new AdapterPersonale(this, nome, stato);
+
+        vlistaSensori.setAdapter(adapter);
+
         vcrono = findViewById(R.id.crono);
         vclick = findViewById(R.id.click);
-        vRef = findViewById(R.id.Ref);
-        vRef2 = findViewById(R.id.Ref2);
         vphone = findViewById(R.id.phone);
         vinvia = findViewById(R.id.invia);
 
+        vlistaSensori.setEnabled(false);
+        vlistaSensori.setVisibility(View.GONE);
         vcrono.setEnabled(false);
         vclick.setEnabled(false);
         vcrono = findViewById(R.id.crono);
         vcrono.setVisibility(View.GONE);
         vclick.setVisibility(View.GONE);
-        vRef.setVisibility(View.GONE);
-        vRef2.setVisibility(View.GONE);
-        vRef.setBackgroundColor(Color.WHITE);
-        vRef2.setBackgroundColor(Color.WHITE);
-        vRef.setText("\n" + "Niente fumo rilevato.");
-        vRef2.setText("\n" + "Nessun movimento rilevato");
 
-        //Intent intent = new Intent(getApplicationContext(), Login.class);
-        //startActivityForResult(intent, REQUEST_CHIAMA);
 
         //Di seguito scrivo l'ascoltatore di cambio dati nel database
 
@@ -125,8 +120,8 @@ public class MainActivity extends AppCompatActivity {
 
                     if(tick == 5){tick = 0; test = 1;}
 
-                    vRef.setText("\n" + "Attenzione, fumo rilevato!");
-                    vRef.setBackgroundColor(Color.RED);
+                    stato[0] = "1";
+                    adapter.notifyDataSetChanged();
 
                     //Sto creando la notifica
 
@@ -166,10 +161,6 @@ public class MainActivity extends AppCompatActivity {
 
 
                 }
-
-                /*if (disp.equals("0")) {
-                    vRef.setText("Non è stato rilevato fumo.");
-                }*/
             }
 
             @Override
@@ -198,8 +189,9 @@ public class MainActivity extends AppCompatActivity {
 
                     if(tickm == 5){tickm = 0; test = 1;}
 
-                    vRef2.setText("\n" + "Attenzione, movimento rilevato!");
-                    vRef2.setBackgroundColor(Color.RED);
+                    stato [1] = "1";
+                    adapter.notifyDataSetChanged();
+
                     NotificationCompat.Builder mBuilder =
                             new NotificationCompat.Builder(getApplicationContext().getApplicationContext(), "notify_001");
                     Intent ii = new Intent(getApplicationContext().getApplicationContext(), MainActivity.class);
@@ -234,11 +226,6 @@ public class MainActivity extends AppCompatActivity {
 
                     mNotificationManager.notify(1, mBuilder.build());
                 }
-
-                /*if (disp2.equals("0")) {
-                    vRef2.setText("Non è stato rilevato movimento.");
-                }*/
-
             }
 
             @Override
@@ -263,21 +250,20 @@ public class MainActivity extends AppCompatActivity {
                 Utente1.child("Fumo").addValueEventListener(listen);
                 Utente1.child("Movimento").addValueEventListener(listen1);
                 vclick.setVisibility(View.VISIBLE);
-                vRef.setVisibility(View.VISIBLE);
-                vRef2.setVisibility(View.VISIBLE);
+                vlistaSensori.setEnabled(true);
+                vlistaSensori.setVisibility(View.VISIBLE);
                 vphone.setVisibility(View.GONE);
                 vinvia.setVisibility(View.GONE);
                 vcrono.setVisibility(View.VISIBLE);
                 vcrono.setEnabled(true);
                 vclick.setEnabled(true);
 
-
             }
         });
 
         DatabaseReference Utente = database.getReference(numero1);
 
-        vclick.setOnClickListener(new refList(Utente));
+        vclick.setOnClickListener(new refList(Utente,adapter));
 
         vcrono.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -372,25 +358,23 @@ public class MainActivity extends AppCompatActivity {
     public class refList implements View.OnClickListener
     {
 
+        AdapterPersonale adapter1;
         DatabaseReference ref;
-        public refList(DatabaseReference ref) {
+
+        public refList(DatabaseReference ref,AdapterPersonale adapter) {
             this.ref = ref;
+            adapter1 = adapter;
         }
 
-        @Override
         public void onClick(View v)
         {
             DatabaseReference Utente = database.getReference(numero1);
             Utente.child("Fumo").setValue(0);
             Utente.child("Movimento").setValue(0);
-            vRef.setText("\n" + "Niente fumo rilevato.");
-            vRef2.setText("\n" +"Nessun movimento rilevato.");
-            vRef.setBackgroundColor(Color.WHITE);
-            vRef2.setBackgroundColor(Color.WHITE);
+            stato[0] = "0";
+            stato[1] = "0";
+            adapter1.notifyDataSetChanged();
         }
 
-    };
-
-
-
+    }
 }
