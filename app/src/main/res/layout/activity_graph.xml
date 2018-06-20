@@ -9,23 +9,24 @@
 
     <TextView
         android:id="@+id/statofumo"
-        android:layout_width="373dp"
-        android:layout_height="62dp"
+        android:layout_width="391dp"
+        android:layout_height="76dp"
         android:layout_marginBottom="8dp"
-        android:layout_marginTop="4dp"
+        android:background="#00DCF5"
         android:text="@string/segnalafumo"
         android:textAlignment="center"
         android:textAppearance="@style/TextAppearance.AppCompat"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.428"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.018" />
+        app:layout_constraintVertical_bias="0.0" />
 
     <ListView
         android:id="@+id/fumolist"
         android:layout_width="379dp"
-        android:layout_height="187dp"
+        android:layout_height="150dp"
         android:layout_marginBottom="?attr/actionBarSize"
         android:layout_marginTop="8dp"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -33,14 +34,14 @@
         app:layout_constraintHorizontal_bias="0.6"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.214">
+        app:layout_constraintVertical_bias="0.269">
 
     </ListView>
 
     <ListView
         android:id="@+id/movlist"
         android:layout_width="395dp"
-        android:layout_height="169dp"
+        android:layout_height="150dp"
         android:layout_marginEnd="8dp"
         android:layout_marginTop="288dp"
         app:layout_constraintEnd_toEndOf="parent"
@@ -50,20 +51,21 @@
 
     <TextView
         android:id="@+id/statomovimento"
-        android:layout_width="373dp"
-        android:layout_height="62dp"
+        android:layout_width="394dp"
+        android:layout_height="68dp"
         android:layout_marginBottom="8dp"
         android:layout_marginEnd="8dp"
         android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
+        android:background="#00DCF5"
         android:text="@string/segnalamov"
         android:textAlignment="center"
         android:textAppearance="@style/TextAppearance.AppCompat"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.4"
+        app:layout_constraintHorizontal_bias="0.384"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.584" />
+        app:layout_constraintVertical_bias="0.571" />
 
 </android.support.constraint.ConstraintLayout>
