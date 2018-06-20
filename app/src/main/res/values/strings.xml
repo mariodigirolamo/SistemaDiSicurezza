@@ -4,4 +4,6 @@
     <string name="statogas">"Non è stata rilevata alcuna anomalia di gas."</string>
     <string name="dichiara">Se premi il tasto esci, se l\'app verrà chiusa resterà tale e riceverai notifiche.
     Se premi riavvia, l\'app ripartirà e riceverai notifiche.</string>
+    <string name="segnalafumo">"\n"Ultime segnalazioni per anomalie sul gas:</string>
+    <string name="segnalamov">"\n\"Ultime segnalazioni sulle anomalie da movimento:</string>
 </resources>
