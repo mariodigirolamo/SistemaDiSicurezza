@@ -412,11 +412,16 @@ public class MainActivity extends AppCompatActivity {
             case R.id.action_settings:
 
                 Log.v("Impostazioni", "Menu->Impostazioni");
+
                 return true;
 
             case R.id.action_boh:
 
                 Log.v("boh", "facendo boh");
+
+                Intent pref = new Intent(this, Frammenti.class);
+                startActivity(pref);
+
                 return true;
 
             default :

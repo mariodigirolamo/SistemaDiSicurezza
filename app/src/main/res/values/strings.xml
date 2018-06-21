@@ -6,4 +6,7 @@
     Se premi riavvia, l\'app ripartirà e riceverai notifiche.</string>
     <string name="segnalafumo">"\n"Ultime segnalazioni per anomalie sul gas:</string>
     <string name="segnalamov">"\n\"Ultime segnalazioni sulle anomalie da movimento:</string>
+    <string name="tab_preferiti">Preferiti</string>
+    <string name="tab_unknown">Sconosciuta</string>
+    <string name="tab_grafico">Grafico</string>
 </resources>
