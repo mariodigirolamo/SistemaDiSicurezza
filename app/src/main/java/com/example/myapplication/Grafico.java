@@ -2,15 +2,30 @@ package com.example.myapplication;
 
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
+import android.view.ContextMenu;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.ListView;
 import android.widget.TextView;
+
+import java.lang.reflect.Array;
+import java.util.ArrayList;
+import java.util.Arrays;
 
 public class Grafico extends AppCompatActivity {
 
     private TextView vstatom;
     private TextView vstatof;
+
+    private int posizionef = -1;
+
+    AdapterCronologia adapterf;
+    AdapterCronologiaMov adaptermov;
 
     @Override
     protected void onCreate(Bundle savedInstanceState){
@@ -21,25 +36,11 @@ public class Grafico extends AppCompatActivity {
         vstatom = findViewById(R.id.statomovimento);
         vstatof = findViewById(R.id.statofumo);
 
-        ListView listafumo = (ListView) findViewById(R.id.fumolist);
-        ListView listamov = (ListView) findViewById(R.id.movlist);
+        ListView listafumo = findViewById(R.id.fumolist);
+        ListView listamov = findViewById(R.id.movlist);
 
         Bundle extras = getIntent().getExtras();
         if(extras != null){
-
-
-            String datom1 = String.valueOf(extras.getInt("datom1"));
-            String datom2 = String.valueOf(extras.getInt("datom2"));
-            String datom3 = String.valueOf(extras.getInt("datom3"));
-            String datom4 = String.valueOf(extras.getInt("datom4"));
-            String datom5 = String.valueOf(extras.getInt("datom5"));
-
-            String dato1 = String.valueOf(extras.getInt("dato1"));
-            String dato2 = String.valueOf(extras.getInt("dato2"));
-            String dato3 = String.valueOf(extras.getInt("dato3"));
-            String dato4 = String.valueOf(extras.getInt("dato4"));
-            String dato5 = String.valueOf(extras.getInt("dato5"));
-
 
             String dataf1 = extras.getString("dataf1");
             String dataf2 = extras.getString("dataf2");
@@ -53,19 +54,65 @@ public class Grafico extends AppCompatActivity {
             String datam4 = extras.getString("datam4");
             String datam5 = extras.getString("datam5");
 
-            String [] datifumo = new String [] {dato1, dato2, dato3, dato4, dato5};
-            String [] datimovimento = new String [] {datom1, datom2, datom3, datom4, datom5};
+            // nullpointer per context
 
-            String [] datefumo = new String [] {dataf1, dataf2, dataf3, dataf4, dataf5};
-            String [] datemov = new String [] {datam1, datam2, datam3, datam4, datam5};
+            String [] datefumo = new String[] {dataf1, dataf2, dataf3, dataf4, dataf5};
+            String [] datemov = new String[] {datam1, datam2, datam3, datam4, datam4};
 
-            AdapterCronologia adapterf = new AdapterCronologia(this, datifumo, datefumo);
-            AdapterCronologiaMov adaptermov = new AdapterCronologiaMov(this, datimovimento, datemov);
+            ArrayList<String> arrayfumo = new ArrayList<String>(Arrays.asList(datefumo));
+            ArrayList<String> arraymov = new ArrayList<String>(Arrays.asList(datemov));
+
+            final AdapterCronologia adapterf = new AdapterCronologia(this, arrayfumo);
+            final AdapterCronologiaMov adaptermov = new AdapterCronologiaMov(this, arraymov);
 
             listafumo.setAdapter(adapterf);
             listamov.setAdapter(adaptermov);
 
+            listamov.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                @Override
+                public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+
+                    adaptermov.remove(adaptermov.getItem(i));
+                    adaptermov.notifyDataSetChanged();
+                }
+            });
+
+            listafumo.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                @Override
+                public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+
+                    adapterf.remove(adapterf.getItem(i));
+                    adapterf.notifyDataSetChanged();
+                    Log.v("CambioValore", "Vediamo che succede.");
+                }
+            });
+
+            this.registerForContextMenu(listafumo);
+            this.registerForContextMenu(listamov);
+
         }
+    }
+
+
+
+    @Override
+    public void onCreateContextMenu(ContextMenu menu, View v, ContextMenu.ContextMenuInfo menuInfo) {
+
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.menu_delete, menu);
+
+    }
+
+    @Override
+    public boolean onContextItemSelected(MenuItem item) {
+
+        switch (item.getItemId())
+        {
+            case R.id.action_delete:
+                break;
+        }
+
+        return super.onContextItemSelected(item);
 
     }
 }

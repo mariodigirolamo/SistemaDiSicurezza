@@ -8,16 +8,21 @@ import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import java.lang.reflect.Array;
+import java.util.ArrayList;
+
 public class AdapterCronologia extends ArrayAdapter<String> {
     private final Context context;
-    private final String[] values;
-    private final String[] crono;
+    private final ArrayList<String> crono;
 
-    public AdapterCronologia(Context context, String[] values, String[] crono) {
-        super(context, -1, values);
+    public AdapterCronologia(Context context, ArrayList<String> crono) {
+        super(context, -1, crono );
         this.context = context;
-        this.values = values;
         this.crono = crono;
+    }
+
+    public ArrayList<String> getValues (){
+        return crono;
     }
 
     @Override
@@ -28,10 +33,7 @@ public class AdapterCronologia extends ArrayAdapter<String> {
         TextView textView = (TextView) rowView.findViewById(R.id.id);
         ImageView imageView = (ImageView) rowView.findViewById(R.id.icona);
 
-        String s = values[position];
-        String c = crono[position];
-
-        textView.setText(crono[position]);
+        textView.setText(crono.get(position));
 
         return rowView;
     }

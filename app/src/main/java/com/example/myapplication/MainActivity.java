@@ -70,6 +70,19 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        /** inizio test crono */
+        for(int i = 0; i < 5; i++){
+
+            dataf [i] = "yara" + i;
+            datam [i] = "yara" + i;
+
+        }
+
+        final int testcrono = 1;
+
+        /** fine test crono */
+
+
         //stiamo caricando il layout della mia activity_main
 
         Intent intent = new Intent(getApplicationContext(), Login.class);
@@ -269,7 +282,7 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
 
-                if((tick == 5 && tickm == 5) && test == 0 || test == 1){
+                if((tick == 5 && tickm == 5) && test == 0 || test == 1 || testcrono == 1){
                     Intent i = new Intent(getApplicationContext(), Grafico.class);
 
                     i.putExtra("datom1", storem[0]);
