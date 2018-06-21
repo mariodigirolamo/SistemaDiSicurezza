@@ -22,10 +22,16 @@ public class Grafico extends AppCompatActivity {
     private TextView vstatom;
     private TextView vstatof;
 
-    private int posizionef = -1;
+    private String toggle = "boh";
 
     AdapterCronologia adapterf;
     AdapterCronologiaMov adaptermov;
+
+    /*private String [] test1 = new String [] {"000","000","000","000","000"};
+    private ArrayList<String> test = new ArrayList<String> (Arrays.asList(test1));
+
+    final AdapterCronologia adapterf = new AdapterCronologia(this, test);
+    final AdapterCronologiaMov adaptermov = new AdapterCronologiaMov(this, test);*/
 
     @Override
     protected void onCreate(Bundle savedInstanceState){
@@ -57,13 +63,13 @@ public class Grafico extends AppCompatActivity {
             // nullpointer per context
 
             String [] datefumo = new String[] {dataf1, dataf2, dataf3, dataf4, dataf5};
-            String [] datemov = new String[] {datam1, datam2, datam3, datam4, datam4};
+            String [] datemov = new String[] {datam1, datam2, datam3, datam4, datam5};
 
             ArrayList<String> arrayfumo = new ArrayList<String>(Arrays.asList(datefumo));
             ArrayList<String> arraymov = new ArrayList<String>(Arrays.asList(datemov));
 
-            final AdapterCronologia adapterf = new AdapterCronologia(this, arrayfumo);
-            final AdapterCronologiaMov adaptermov = new AdapterCronologiaMov(this, arraymov);
+            adapterf = new AdapterCronologia(this, arrayfumo);
+            adaptermov = new AdapterCronologiaMov(this, arraymov);
 
             listafumo.setAdapter(adapterf);
             listamov.setAdapter(adaptermov);
@@ -83,17 +89,33 @@ public class Grafico extends AppCompatActivity {
 
                     adapterf.remove(adapterf.getItem(i));
                     adapterf.notifyDataSetChanged();
-                    Log.v("CambioValore", "Vediamo che succede.");
                 }
             });
 
             this.registerForContextMenu(listafumo);
             this.registerForContextMenu(listamov);
 
+            listafumo.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
+                @Override
+                public boolean onItemLongClick(AdapterView<?> adapterView, View view, int i, long l) {
+                    toggle = "Fumo";
+                    return false;
+                }
+            });
+
+            listamov.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
+                @Override
+                public boolean onItemLongClick(AdapterView<?> adapterView, View view, int i, long l) {
+                    toggle = "Movimento";
+                    return false;
+                }
+            });
+
         }
+
+        adapterf.notifyDataSetChanged();
+        adaptermov.notifyDataSetChanged();
     }
-
-
 
     @Override
     public void onCreateContextMenu(ContextMenu menu, View v, ContextMenu.ContextMenuInfo menuInfo) {
@@ -106,9 +128,21 @@ public class Grafico extends AppCompatActivity {
     @Override
     public boolean onContextItemSelected(MenuItem item) {
 
+        AdapterView.AdapterContextMenuInfo info = (AdapterView.AdapterContextMenuInfo) item.getMenuInfo();
+
         switch (item.getItemId())
         {
             case R.id.action_delete:
+
+                if(toggle == "Fumo"){
+                    adapterf.remove(adapterf.getItem(info.position));
+                    adapterf.notifyDataSetChanged();
+                }
+                if(toggle == "Movimento"){
+                    adaptermov.remove(adaptermov.getItem(info.position));
+                    adaptermov.notifyDataSetChanged();
+                }
+
                 break;
         }
 
