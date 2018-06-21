@@ -14,7 +14,10 @@ import android.graphics.Color;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -69,6 +72,9 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        Toolbar toolbar = findViewById(R.id.toolbar2);
+        setSupportActionBar(toolbar);
 
         /** inizio test crono */
         for(int i = 0; i < 5; i++){
@@ -257,7 +263,6 @@ public class MainActivity extends AppCompatActivity {
                 numero1 = vphone.getText().toString();
                 numero2 = vphone.getText().toString();
                 DatabaseReference Utente1 = database.getReference(numero2);
-                Utente1.setValue(numero2);
                 Utente1.child("Fumo").setValue("0");
                 Utente1.child("Movimento").setValue("0");
                 Utente1.child("Fumo").addValueEventListener(listen);
@@ -391,5 +396,33 @@ public class MainActivity extends AppCompatActivity {
             adapter1.notifyDataSetChanged();
         }
 
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu){
+        getMenuInflater().inflate(R.menu.toolbar, menu);
+        return super.onCreateOptionsMenu(menu);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+
+        switch (item.getItemId()) {
+
+            case R.id.action_settings:
+
+                Log.v("Impostazioni", "Menu->Impostazioni");
+                return true;
+
+            case R.id.action_boh:
+
+                Log.v("boh", "facendo boh");
+                return true;
+
+            default :
+
+                return super.onOptionsItemSelected(item);
+
+        }
     }
 }
