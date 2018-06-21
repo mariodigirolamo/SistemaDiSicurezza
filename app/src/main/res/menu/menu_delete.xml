@@ -7,4 +7,9 @@
         android:icon="@android:drawable/ic_menu_delete"
         app:showAsAction="collapseActionView|always"/>
 
+    <item android:id="@+id/action_star"
+        android:title="Aggiungi a segnalazioni importanti"
+        android:icon="@android:drawable/btn_star"
+        app:showAsAction="collapseActionView|always"/>
+
 </menu>

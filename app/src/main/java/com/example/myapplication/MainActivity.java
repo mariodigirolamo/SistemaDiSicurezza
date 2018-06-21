@@ -285,6 +285,8 @@ public class MainActivity extends AppCompatActivity {
                 if((tick == 5 && tickm == 5) && test == 0 || test == 1 || testcrono == 1){
                     Intent i = new Intent(getApplicationContext(), Grafico.class);
 
+                    i.putExtra("numero", numero1);
+
                     i.putExtra("datom1", storem[0]);
                     i.putExtra("datom2", storem[1]);
                     i.putExtra("datom3", storem[2]);

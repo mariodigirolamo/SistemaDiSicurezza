@@ -21,6 +21,10 @@ public class AdapterCronologia extends ArrayAdapter<String> {
         this.crono = crono;
     }
 
+    public String getString(int position){
+        return crono.get(position);
+    }
+
     public ArrayList<String> getValues (){
         return crono;
     }

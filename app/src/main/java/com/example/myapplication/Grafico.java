@@ -13,6 +13,9 @@ import android.widget.Button;
 import android.widget.ListView;
 import android.widget.TextView;
 
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+
 import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -22,16 +25,14 @@ public class Grafico extends AppCompatActivity {
     private TextView vstatom;
     private TextView vstatof;
 
+    String numero;
+
     private String toggle = "boh";
 
     AdapterCronologia adapterf;
     AdapterCronologiaMov adaptermov;
 
-    /*private String [] test1 = new String [] {"000","000","000","000","000"};
-    private ArrayList<String> test = new ArrayList<String> (Arrays.asList(test1));
-
-    final AdapterCronologia adapterf = new AdapterCronologia(this, test);
-    final AdapterCronologiaMov adaptermov = new AdapterCronologiaMov(this, test);*/
+    FirebaseDatabase database = FirebaseDatabase.getInstance();
 
     @Override
     protected void onCreate(Bundle savedInstanceState){
@@ -47,6 +48,10 @@ public class Grafico extends AppCompatActivity {
 
         Bundle extras = getIntent().getExtras();
         if(extras != null){
+
+            String numero1 = extras.getString("numero");
+
+            numero = numero1;
 
             String dataf1 = extras.getString("dataf1");
             String dataf2 = extras.getString("dataf2");
@@ -144,6 +149,23 @@ public class Grafico extends AppCompatActivity {
                 }
 
                 break;
+
+            case R.id.action_star:
+
+                DatabaseReference Utente = database.getReference(numero);
+
+                if(toggle == "Fumo"){
+
+                    String temp2 = adapterf.getString(info.position);
+                    Utente.child("Preferiti").child(temp2).setValue(temp2);
+
+                }
+
+                if(toggle == "Movimento"){
+
+                    String temp2 = adaptermov.getString(info.position);
+                    Utente.child("Preferiti").child(temp2).setValue(temp2);
+                }
         }
 
         return super.onContextItemSelected(item);
