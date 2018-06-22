@@ -2,6 +2,7 @@ package com.example.myapplication;
 
 import android.content.Context;
 import android.os.Bundle;
+import android.provider.ContactsContract;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.util.Log;
@@ -35,7 +36,7 @@ public class FragPreferiti extends Fragment{
 
     private String numero1 = "prova";
 
-    private String [] segnalazioni;
+    //private String [] segnalazioni;
 
     private ListView vlistapref;
 
@@ -64,6 +65,8 @@ public class FragPreferiti extends Fragment{
 
         super.onActivityCreated(savedInstanceState);
 
+        vlistapref = getView().findViewById(R.id.listaPreferiti);
+
         /*if( getArguments() != null) {
             numero1 = getArguments().getString("KEY_NAME");
             Toast.makeText(getContext(), "valore" + numero1, Toast.LENGTH_LONG).show();
@@ -78,6 +81,39 @@ public class FragPreferiti extends Fragment{
                 Toast.makeText(getContext(), "valore" + numero1, Toast.LENGTH_LONG).show();
                 if(numero1 != null){
                     final DatabaseReference ref2 = database.getReference(numero1);
+
+                    DatabaseReference refpref = ref2.child("Preferiti");
+
+                    DatabaseReference refChild = refpref.child("yara1");
+
+                    refpref.addValueEventListener(new ValueEventListener() {
+                        @Override
+                        public void onDataChange(DataSnapshot dataSnapshot) {
+
+                            int i = 0;
+
+                            String [] segnalazioni = new String [10];
+                            for(int j = 0; j < 10; j++){segnalazioni[j] = "0";};
+
+                            //Toast.makeText(getContext(), "Dato cambiato", Toast.LENGTH_LONG).show();
+                            for (DataSnapshot zoneSnapshot: dataSnapshot.getChildren()) {
+
+                                segnalazioni [i] = zoneSnapshot.getValue(String.class);
+                                i++;
+
+                            }
+
+                            ArrayList<String> lista = new ArrayList<String>(Arrays.asList(segnalazioni));
+                            AdapterCronologia adapter = new AdapterCronologia(getContext(), lista);
+
+                            vlistapref.setAdapter(adapter);
+
+                        }
+
+                        @Override
+                        public void onCancelled(DatabaseError databaseError) {
+                        }
+                    });
                 }
             }
         });
