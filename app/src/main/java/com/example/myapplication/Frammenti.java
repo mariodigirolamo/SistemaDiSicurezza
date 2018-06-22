@@ -1,19 +1,39 @@
 package com.example.myapplication;
 
 import android.os.Bundle;
+import android.speech.tts.TextToSpeech;
 import android.support.design.widget.TabLayout;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
+import android.widget.TextView;
+import android.widget.Toast;
 
 public class Frammenti extends AppCompatActivity {
+
+    public String numero;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_fragment);
 
+        Bundle extras = getIntent().getExtras();
+        if(extras != null){
+
+            numero = extras.getString("numero");
+        }
+
+        Bundle bundle = new Bundle();
+        bundle.putString("numero", numero);
+        FragPreferiti frag = new FragPreferiti();
+        frag.setArguments(bundle);
+
         impostaPager();
 
+    }
+
+    public String getNumero(){
+        return numero;
     }
 
     private void impostaPager(){

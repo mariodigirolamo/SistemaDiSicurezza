@@ -31,10 +31,15 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
+import java.io.IOException;
+import java.io.OutputStreamWriter;
 import java.util.Calendar;
 import java.util.List;
+import java.util.Random;
 
 public class MainActivity extends AppCompatActivity {
+
+    Random r = new Random();
 
     //private String link = "https://provamario-a2c84.firebaseio.com/";
 
@@ -275,6 +280,7 @@ public class MainActivity extends AppCompatActivity {
                 vcrono.setVisibility(View.VISIBLE);
                 vcrono.setEnabled(true);
                 vclick.setEnabled(true);
+                writeToFile(numero1, getApplicationContext());
 
             }
         });
@@ -420,6 +426,7 @@ public class MainActivity extends AppCompatActivity {
                 Log.v("boh", "facendo boh");
 
                 Intent pref = new Intent(this, Frammenti.class);
+                pref.putExtra("numero", numero1);
                 startActivity(pref);
 
                 return true;
@@ -428,6 +435,17 @@ public class MainActivity extends AppCompatActivity {
 
                 return super.onOptionsItemSelected(item);
 
+        }
+    }
+
+    private void writeToFile(String data,Context context) {
+        try {
+            OutputStreamWriter outputStreamWriter = new OutputStreamWriter(context.openFileOutput("numeroSDS.txt", Context.MODE_PRIVATE));
+            outputStreamWriter.write(data);
+            outputStreamWriter.close();
+        }
+        catch (IOException e) {
+            Log.e("Exception", "File write failed: " + e.toString());
         }
     }
 }
