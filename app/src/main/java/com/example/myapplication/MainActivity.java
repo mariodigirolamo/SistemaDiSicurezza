@@ -35,8 +35,11 @@ import com.google.firebase.database.ValueEventListener;
 
 import java.io.IOException;
 import java.io.OutputStreamWriter;
+import java.text.DateFormat;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 import java.util.Random;
 
 public class MainActivity extends AppCompatActivity {
@@ -138,7 +141,8 @@ public class MainActivity extends AppCompatActivity {
                 if (disp.equals("1")) {
 
                     store[tick] = 1;
-                    dataf[tick] = Calendar.getInstance().getTime().toString();
+                    Date d = Calendar.getInstance().getTime();
+                    dataf[tick] = ("Segnalazione Gas " + DateFormat.getDateTimeInstance(DateFormat.FULL, DateFormat.FULL, Locale.ITALY).format(d));
 
                     if(tick < 5) {
                         tick = tick + 1;
@@ -207,7 +211,9 @@ public class MainActivity extends AppCompatActivity {
                 if (disp2.equals("1")) {
 
                     storem[tickm] = 1;
-                    datam[tickm] = Calendar.getInstance().getTime().toString();
+                    //datam[tickm] = Calendar.getInstance().getTime().toString();
+                    Date d = Calendar.getInstance().getTime();
+                    datam[tickm] = ("Segnalazione Movimento " + DateFormat.getDateTimeInstance(DateFormat.FULL, DateFormat.FULL, Locale.ITALY).format(d));
 
                     if(tickm < 5) {
                         tickm = tickm + 1;

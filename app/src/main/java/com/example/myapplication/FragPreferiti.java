@@ -74,7 +74,6 @@ public class FragPreferiti extends Fragment{
         vbutton2.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Toast.makeText(getContext(), "valore" + numero1, Toast.LENGTH_LONG).show();
                 if(numero1 != null){
                     final DatabaseReference ref2 = database.getReference(numero1);
 
@@ -168,7 +167,6 @@ public class FragPreferiti extends Fragment{
                 numero1 = readFromFile(getContext());
                 DatabaseReference num = database.getReference(numero1);
                 DatabaseReference pref = num.child("Preferiti");
-                Toast.makeText(getContext(), name, Toast.LENGTH_LONG).show();
                 pref.child(name).removeValue();
 
         }
