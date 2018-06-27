@@ -5,10 +5,16 @@ import android.os.Bundle;
 import android.provider.ContactsContract;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentTabHost;
+import android.support.v4.app.FragmentTransaction;
 import android.util.Log;
+import android.view.ContextMenu;
 import android.view.LayoutInflater;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.ListView;
 import android.widget.TextClock;
@@ -36,26 +42,21 @@ public class FragPreferiti extends Fragment{
 
     private String numero1 = "prova";
 
-    //private String [] segnalazioni;
 
     private ListView vlistapref;
 
     private TextView testo;
 
+    AdapterPrefe adapter;
+
     FirebaseDatabase database = FirebaseDatabase.getInstance();
 
     public FragPreferiti(){
-        //richiesto vuoto
+
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-
-        /*ArrayList<String> arraypref = new ArrayList<String>(Arrays.asList(segnalazioni));
-
-        AdapterCronologia adapter = new AdapterCronologia(getContext(), arraypref);
-
-        vlistapref.setAdapter(adapter);*/
 
         return inflater.inflate(R.layout.frag_preferiti, container, false);
     }
@@ -66,11 +67,6 @@ public class FragPreferiti extends Fragment{
         super.onActivityCreated(savedInstanceState);
 
         vlistapref = getView().findViewById(R.id.listaPreferiti);
-
-        /*if( getArguments() != null) {
-            numero1 = getArguments().getString("KEY_NAME");
-            Toast.makeText(getContext(), "valore" + numero1, Toast.LENGTH_LONG).show();
-        }*/
 
         numero1 = readFromFile(getContext());
 
@@ -95,18 +91,49 @@ public class FragPreferiti extends Fragment{
                             String [] segnalazioni = new String [10];
                             for(int j = 0; j < 10; j++){segnalazioni[j] = "0";};
 
-                            //Toast.makeText(getContext(), "Dato cambiato", Toast.LENGTH_LONG).show();
                             for (DataSnapshot zoneSnapshot: dataSnapshot.getChildren()) {
 
                                 segnalazioni [i] = zoneSnapshot.getValue(String.class);
+
                                 i++;
 
                             }
 
-                            ArrayList<String> lista = new ArrayList<String>(Arrays.asList(segnalazioni));
-                            AdapterCronologia adapter = new AdapterCronologia(getContext(), lista);
+                            int ind = 0;
+
+                            for(int j = 0; j < 10; j++){
+
+                                if(segnalazioni[j].equals("0")){
+
+                                    j = 10;
+
+                                }
+
+                                else{
+
+                                    ind++;
+
+                                }
+
+                            }
+
+                            String [] temp = new String[ind];
+
+                            for(int j = 0; j < ind; j++){
+
+                                temp [j] = segnalazioni [j];
+
+                            }
+
+
+                            ArrayList<String> lista = new ArrayList<String>(Arrays.asList(temp));
+                            if (getActivity() != null) {
+                                adapter = new AdapterPrefe(getContext(), lista);
+                            }
 
                             vlistapref.setAdapter(adapter);
+
+                            registerForContextMenu(vlistapref);
 
                         }
 
@@ -117,6 +144,37 @@ public class FragPreferiti extends Fragment{
                 }
             }
         });
+    }
+
+    @Override
+    public void onCreateContextMenu(ContextMenu menu, View v, ContextMenu.ContextMenuInfo menuInfo) {
+
+        getActivity().getMenuInflater().inflate(R.menu.menu_delete_pref, menu);
+
+    }
+
+    @Override
+    public boolean onContextItemSelected(MenuItem item) {
+
+        AdapterView.AdapterContextMenuInfo info = (AdapterView.AdapterContextMenuInfo) item.getMenuInfo();
+
+        switch (item.getItemId())
+        {
+            case R.id.action_delete:
+
+                String name = adapter.getItem(info.position).toString();
+                adapter.remove(adapter.getItem(info.position));
+                adapter.notifyDataSetChanged();
+                numero1 = readFromFile(getContext());
+                DatabaseReference num = database.getReference(numero1);
+                DatabaseReference pref = num.child("Preferiti");
+                Toast.makeText(getContext(), name, Toast.LENGTH_LONG).show();
+                pref.child(name).removeValue();
+
+        }
+
+        return super.onContextItemSelected(item);
+
     }
 
     private String readFromFile(Context context) {

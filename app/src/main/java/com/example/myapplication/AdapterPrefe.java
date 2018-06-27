@@ -1,7 +1,6 @@
 package com.example.myapplication;
 
 import android.content.Context;
-import android.view.ContextMenu;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -9,14 +8,13 @@ import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 
-public class AdapterCronologia extends ArrayAdapter<String> {
+public class AdapterPrefe extends ArrayAdapter<String> {
     private final Context context;
     private final ArrayList<String> crono;
 
-    public AdapterCronologia(Context context, ArrayList<String> crono) {
+    public AdapterPrefe(Context context, ArrayList<String> crono) {
         super(context, -1, crono );
         this.context = context;
         this.crono = crono;

@@ -1,10 +1,14 @@
 package com.example.myapplication;
 
+import android.app.FragmentManager;
 import android.os.Bundle;
 import android.speech.tts.TextToSpeech;
 import android.support.design.widget.TabLayout;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
+import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -66,12 +70,5 @@ public class Frammenti extends AppCompatActivity {
 
             }
         });
-
-
-
-
-
-
-
     }
 }
