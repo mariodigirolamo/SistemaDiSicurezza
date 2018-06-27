@@ -9,4 +9,6 @@
     <string name="tab_preferiti">Preferiti</string>
     <string name="tab_unknown">Sconosciuta</string>
     <string name="tab_grafico">Grafico</string>
+    <string name="valoref">In giallo scuro, il numero totale di anomalie provocate da gas.</string>
+    <string name="valm">In blu, il numero totale di anomalie provocate da movimento.</string>
 </resources>

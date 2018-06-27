@@ -53,13 +53,15 @@ public class FragGrafico extends Fragment {
                 new DataPoint(3, valm),
                 new DataPoint(4, 0)
         });
+
+
         graph.addSeries(series);
 
         // styling
         series.setValueDependentColor(new ValueDependentColor<DataPoint>() {
             @Override
             public int get(DataPoint data) {
-                return Color.rgb((int) data.getX()*255/4, (int) Math.abs(data.getY()*255/6), 100);
+                return Color.rgb((int) (data.getX())^4*255/8, (int) (data.getX())^4*255/8, (int)data.getX()*255/4);
             }
         });
 

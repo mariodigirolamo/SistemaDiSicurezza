@@ -100,7 +100,7 @@ public class MainActivity extends AppCompatActivity {
         if(filem.isFile()){}
         else{writeToFileTOTM("0", getApplicationContext());}
 
-        Toolbar toolbar = findViewById(R.id.toolbar2);
+        final Toolbar toolbar = findViewById(R.id.toolbar2);
         setSupportActionBar(toolbar);
 
         /** inizio test crono */
@@ -136,6 +136,8 @@ public class MainActivity extends AppCompatActivity {
         vphone = findViewById(R.id.phone);
         vinvia = findViewById(R.id.invia);
 
+        toolbar.setEnabled(false);
+        toolbar.setVisibility(View.GONE);
         vlistaSensori.setEnabled(false);
         vlistaSensori.setVisibility(View.GONE);
         vcrono.setEnabled(false);
@@ -314,8 +316,10 @@ public class MainActivity extends AppCompatActivity {
                 vphone.setVisibility(View.GONE);
                 vinvia.setVisibility(View.GONE);
                 vcrono.setVisibility(View.VISIBLE);
+                toolbar.setVisibility(View.VISIBLE);
                 vcrono.setEnabled(true);
                 vclick.setEnabled(true);
+                toolbar.setEnabled(true);
                 writeToFile(numero1, getApplicationContext());
 
             }
