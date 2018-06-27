@@ -38,6 +38,7 @@ public class AdapterPersonale extends ArrayAdapter<String> {
 
         if(s == "Movimento"){
             imageView.setImageResource(R.drawable.movimento);
+            textView.setText("Non è stato rilevata alcuna anomalia di movimento.");
         }
 
         if(b.equals("1")){

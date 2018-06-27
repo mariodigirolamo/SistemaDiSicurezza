@@ -33,7 +33,12 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
 import java.text.DateFormat;
 import java.util.Calendar;
@@ -76,6 +81,9 @@ public class MainActivity extends AppCompatActivity {
     final String nome [] = new String [2];
     final String stato [] = new String [2];
 
+    private String asd;
+    private String asd2;
+
     FirebaseDatabase database = FirebaseDatabase.getInstance();
 
     @Override
@@ -83,14 +91,23 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        final File filef = new File(getApplicationContext().getFilesDir(),"segnalaF.txt");
+        final File filem = new File(getApplicationContext().getFilesDir(),"segnalaM.txt");
+
+        if(filef.isFile()){}
+        else{writeToFileTOTF("0", getApplicationContext());}
+
+        if(filem.isFile()){}
+        else{writeToFileTOTM("0", getApplicationContext());}
+
         Toolbar toolbar = findViewById(R.id.toolbar2);
         setSupportActionBar(toolbar);
 
         /** inizio test crono */
         for(int i = 0; i < 5; i++){
 
-            dataf [i] = "yara" + i;
-            datam [i] = "yara" + i;
+            dataf [i] = "Sicuro" + i;
+            datam [i] = "Sicuro" + i;
 
         }
 
@@ -143,6 +160,12 @@ public class MainActivity extends AppCompatActivity {
                     store[tick] = 1;
                     Date d = Calendar.getInstance().getTime();
                     dataf[tick] = ("Segnalazione Gas " + DateFormat.getDateTimeInstance(DateFormat.FULL, DateFormat.FULL, Locale.ITALY).format(d));
+
+                    asd = readFromFileTOTF(getApplicationContext());
+                    int asd1 = Integer.valueOf(asd);
+                    asd1++;
+                    writeToFileTOTF(String.valueOf(asd1), getApplicationContext());
+
 
                     if(tick < 5) {
                         tick = tick + 1;
@@ -214,6 +237,11 @@ public class MainActivity extends AppCompatActivity {
                     //datam[tickm] = Calendar.getInstance().getTime().toString();
                     Date d = Calendar.getInstance().getTime();
                     datam[tickm] = ("Segnalazione Movimento " + DateFormat.getDateTimeInstance(DateFormat.FULL, DateFormat.FULL, Locale.ITALY).format(d));
+
+                    String asd2 = readFromFileTOTM(getApplicationContext());
+                    int asd3 = Integer.valueOf(asd2);
+                    asd3++;
+                    writeToFileTOTM(String.valueOf(asd3), getApplicationContext());
 
                     if(tickm < 5) {
                         tickm = tickm + 1;
@@ -463,5 +491,87 @@ public class MainActivity extends AppCompatActivity {
         catch (IOException e) {
             Log.e("Exception", "File write failed: " + e.toString());
         }
+    }
+
+    private void writeToFileTOTF(String data,Context context) {
+        try {
+            OutputStreamWriter outputStreamWriter = new OutputStreamWriter(context.openFileOutput("segnalaF.txt", Context.MODE_PRIVATE));
+            outputStreamWriter.write(data);
+            outputStreamWriter.close();
+        }
+        catch (IOException e) {
+            Log.e("Exception", "File write failed: " + e.toString());
+        }
+    }
+
+    private void writeToFileTOTM(String data,Context context) {
+        try {
+            OutputStreamWriter outputStreamWriter = new OutputStreamWriter(context.openFileOutput("segnalaM.txt", Context.MODE_PRIVATE));
+            outputStreamWriter.write(data);
+            outputStreamWriter.close();
+        }
+        catch (IOException e) {
+            Log.e("Exception", "File write failed: " + e.toString());
+        }
+    }
+
+    private String readFromFileTOTM(Context context) {
+
+        String ret = "";
+
+        try {
+            InputStream inputStream = context.openFileInput("segnalaM.txt");
+
+            if ( inputStream != null ) {
+                InputStreamReader inputStreamReader = new InputStreamReader(inputStream);
+                BufferedReader bufferedReader = new BufferedReader(inputStreamReader);
+                String receiveString = "";
+                StringBuilder stringBuilder = new StringBuilder();
+
+                while ( (receiveString = bufferedReader.readLine()) != null ) {
+                    stringBuilder.append(receiveString);
+                }
+
+                inputStream.close();
+                ret = stringBuilder.toString();
+            }
+        }
+        catch (FileNotFoundException e) {
+            Log.e("login activity", "File not found: " + e.toString());
+        } catch (IOException e) {
+            Log.e("login activity", "Can not read file: " + e.toString());
+        }
+
+        return ret;
+    }
+
+    private String readFromFileTOTF(Context context) {
+
+        String ret = "";
+
+        try {
+            InputStream inputStream = context.openFileInput("segnalaF.txt");
+
+            if ( inputStream != null ) {
+                InputStreamReader inputStreamReader = new InputStreamReader(inputStream);
+                BufferedReader bufferedReader = new BufferedReader(inputStreamReader);
+                String receiveString = "";
+                StringBuilder stringBuilder = new StringBuilder();
+
+                while ( (receiveString = bufferedReader.readLine()) != null ) {
+                    stringBuilder.append(receiveString);
+                }
+
+                inputStream.close();
+                ret = stringBuilder.toString();
+            }
+        }
+        catch (FileNotFoundException e) {
+            Log.e("login activity", "File not found: " + e.toString());
+        } catch (IOException e) {
+            Log.e("login activity", "Can not read file: " + e.toString());
+        }
+
+        return ret;
     }
 }
