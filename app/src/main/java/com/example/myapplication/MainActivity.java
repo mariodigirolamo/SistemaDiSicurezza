@@ -62,6 +62,7 @@ public class MainActivity extends AppCompatActivity {
     private int tick = 0;
     private int tickm = 0;
 
+    private FloatingActionButton vmap;
     private FloatingActionButton vcrono;
     private Button vinvia;
     private TextView vRef2;
@@ -135,11 +136,14 @@ public class MainActivity extends AppCompatActivity {
         vclick = findViewById(R.id.click);
         vphone = findViewById(R.id.phone);
         vinvia = findViewById(R.id.invia);
+        vmap = findViewById(R.id.bmap);
 
         toolbar.setEnabled(false);
         toolbar.setVisibility(View.GONE);
         vlistaSensori.setEnabled(false);
         vlistaSensori.setVisibility(View.GONE);
+        vmap.setVisibility(View.GONE);
+        vmap.setEnabled(false);
         vcrono.setEnabled(false);
         vclick.setEnabled(false);
         vcrono = findViewById(R.id.crono);
@@ -320,6 +324,8 @@ public class MainActivity extends AppCompatActivity {
                 vcrono.setEnabled(true);
                 vclick.setEnabled(true);
                 toolbar.setEnabled(true);
+                vmap.setVisibility(View.VISIBLE);
+                vmap.setEnabled(true);
                 writeToFile(numero1, getApplicationContext());
 
             }
@@ -328,6 +334,14 @@ public class MainActivity extends AppCompatActivity {
         DatabaseReference Utente = database.getReference(numero1);
 
         vclick.setOnClickListener(new refList(Utente,adapter));
+
+        vmap.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent izs = new Intent(getApplicationContext(), Mappa.class);
+                startActivity(izs);
+            }
+        });
 
         vcrono.setOnClickListener(new View.OnClickListener() {
             @Override
