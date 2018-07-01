@@ -1,14 +1,33 @@
 package com.example.myapplication;
 
+import android.annotation.SuppressLint;
+import android.content.Context;
+import android.content.pm.PackageManager;
+import android.net.Uri;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
+import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.CardView;
 import android.telecom.Call;
+import android.text.style.CharacterStyle;
 import android.util.Log;
+import android.view.View;
+import android.widget.Button;
 
 import com.google.android.gms.common.api.Status;
+import com.google.android.gms.location.places.AutocompletePrediction;
+import com.google.android.gms.location.places.AutocompletePredictionBuffer;
+import com.google.android.gms.location.places.AutocompletePredictionBufferResponse;
+import com.google.android.gms.location.places.GeoDataClient;
 import com.google.android.gms.location.places.Place;
+import com.google.android.gms.location.places.PlaceDetectionClient;
+import com.google.android.gms.location.places.PlaceLikelihood;
+import com.google.android.gms.location.places.PlaceLikelihoodBufferResponse;
+import com.google.android.gms.location.places.Places;
 import com.google.android.gms.location.places.ui.PlaceAutocompleteFragment;
+import com.google.android.gms.location.places.ui.PlacePicker;
 import com.google.android.gms.location.places.ui.PlaceSelectionListener;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
@@ -16,12 +35,28 @@ import com.google.android.gms.maps.MapView;
 import com.google.android.gms.maps.MapsInitializer;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.LatLngBounds;
 import com.google.android.gms.maps.model.MarkerOptions;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 
-public class Mappa extends AppCompatActivity implements OnMapReadyCallback{
+import java.io.BufferedReader;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.io.ObjectStreamException;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Locale;
+
+public class Mappa extends AppCompatActivity implements OnMapReadyCallback {
 
     private String TAG = "MAP_LIFE";
 
+    private Button Filtro;
     private MapView vMappa;
     private GoogleMap mGoogleMap;
     private CardView vCard;
@@ -39,7 +74,7 @@ public class Mappa extends AppCompatActivity implements OnMapReadyCallback{
 
         vMappa.getMapAsync(this);
 
-        PlaceAutocompleteFragment autocompleteFragment = (PlaceAutocompleteFragment)
+        final PlaceAutocompleteFragment autocompleteFragment = (PlaceAutocompleteFragment)
                 getFragmentManager().findFragmentById(R.id.place_autocomplete_fragment);
 
         autocompleteFragment.setOnPlaceSelectedListener(new PlaceSelectionListener() {
@@ -54,6 +89,18 @@ public class Mappa extends AppCompatActivity implements OnMapReadyCallback{
                 mGoogleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(place.getLatLng(), 10));
 
                 Log.i(TAG, "Place: " + place.getName());
+
+                LatLngBounds latLngBounds = new LatLngBounds(place.getLatLng(),
+                        place.getLatLng());
+                PlacePicker.IntentBuilder builder = new PlacePicker.IntentBuilder();
+                builder.setLatLngBounds(latLngBounds);
+
+                try {
+                    startActivityForResult(builder.build(getParent()), 1);
+                } catch (Exception e) {
+                    Log.e(TAG, e.getStackTrace().toString());
+                }
+
             }
 
             @Override
@@ -65,11 +112,12 @@ public class Mappa extends AppCompatActivity implements OnMapReadyCallback{
 
     }
 
-    protected void onResume(){
+    protected void onResume() {
         vMappa.onResume();
         super.onResume();
     }
 
+    @SuppressLint("MissingPermission")
     @Override
     public void onMapReady(GoogleMap googleMap) {
 
@@ -77,17 +125,19 @@ public class Mappa extends AppCompatActivity implements OnMapReadyCallback{
 
         mGoogleMap.getUiSettings().setZoomControlsEnabled(true);
 
-        try{
+        try {
             MapsInitializer.initialize(this);
-        } catch (Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
         }
 
-        LatLng llAversa = new LatLng(40.9675999,14.1996051);
+        LatLng llAversa = new LatLng(40.9675999, 14.1996051);
 
-        mGoogleMap.addMarker(new MarkerOptions().position(llAversa));
+        mGoogleMap.addMarker(new MarkerOptions().position(llAversa).title("Locazione abitazione"));
 
         mGoogleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(llAversa, 10));
 
+
     }
+
 }
