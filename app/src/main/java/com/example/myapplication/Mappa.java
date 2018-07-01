@@ -56,7 +56,6 @@ public class Mappa extends AppCompatActivity implements OnMapReadyCallback {
 
     private String TAG = "MAP_LIFE";
 
-    private Button Filtro;
     private MapView vMappa;
     private GoogleMap mGoogleMap;
     private CardView vCard;
