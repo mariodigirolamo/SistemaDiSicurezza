@@ -23,8 +23,8 @@
         <activity android:name=".Mappa"/>
 
         <meta-data
-            android:name="com.google.android.maps.v2.API_KEY"
-            android:value="AIzaSyBqzRfVsPZrIzdKUWIvw9qx-oJ_cbc1iaw"/>
+            android:name="com.google.android.geo.API_KEY"
+            android:value="AIzaSyC-PG6D-kXYv2fRSJepv9aCUChF9I2YDn8"/>
 
     </application>
 
