@@ -477,12 +477,6 @@ public class MainActivity extends AppCompatActivity {
 
         switch (item.getItemId()) {
 
-            case R.id.action_settings:
-
-                Log.v("Impostazioni", "Menu->Impostazioni");
-
-                return true;
-
             case R.id.action_boh:
 
                 Log.v("boh", "facendo boh");
