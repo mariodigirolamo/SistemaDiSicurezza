@@ -176,7 +176,7 @@ public class Login extends AppCompatActivity {
                         } else {
                             // If sign in fails, display a message to the user.
                             Log.w(TAG, "signInWithEmail:failure", task.getException());
-                            Toast.makeText(getApplicationContext(), "Authentication failed.",
+                            Toast.makeText(getApplicationContext(), "Autenticazione fallita",
                                     Toast.LENGTH_SHORT).show();
                             updateUI(null);
                         }

@@ -5,6 +5,7 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.content.res.Configuration;
 import android.location.Geocoder;
 import android.net.Uri;
 import android.os.Bundle;
@@ -66,8 +67,15 @@ public class Mappa extends AppCompatActivity implements OnMapReadyCallback {
     private CardView vCard;
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    protected void onCreate(final Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        final Locale locale = new Locale("it");
+        Configuration configs = getBaseContext().getResources().getConfiguration();
+        configs.locale = locale;
+        getBaseContext().getResources().updateConfiguration(configs, getBaseContext().getResources().getDisplayMetrics());
+        getApplicationContext().getResources().updateConfiguration(configs, getBaseContext().getResources().getDisplayMetrics());
+
         setContentView(R.layout.layout_mappa);
 
         vCard = findViewById(R.id.Card);
