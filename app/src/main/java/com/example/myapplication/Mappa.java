@@ -1,8 +1,11 @@
 package com.example.myapplication;
 
 import android.annotation.SuppressLint;
+import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.location.Geocoder;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -15,6 +18,7 @@ import android.text.style.CharacterStyle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.Toast;
 
 import com.google.android.gms.common.api.Status;
 import com.google.android.gms.location.places.AutocompletePrediction;
@@ -34,6 +38,7 @@ import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.MapView;
 import com.google.android.gms.maps.MapsInitializer;
 import com.google.android.gms.maps.OnMapReadyCallback;
+import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.LatLngBounds;
 import com.google.android.gms.maps.model.MarkerOptions;
@@ -92,10 +97,11 @@ public class Mappa extends AppCompatActivity implements OnMapReadyCallback {
                 LatLngBounds latLngBounds = new LatLngBounds(place.getLatLng(),
                         place.getLatLng());
                 PlacePicker.IntentBuilder builder = new PlacePicker.IntentBuilder();
+
                 builder.setLatLngBounds(latLngBounds);
 
                 try {
-                    startActivityForResult(builder.build(getParent()), 1);
+                    startActivityForResult(builder.build(Mappa.this), 3);
                 } catch (Exception e) {
                     Log.e(TAG, e.getStackTrace().toString());
                 }
@@ -132,11 +138,24 @@ public class Mappa extends AppCompatActivity implements OnMapReadyCallback {
 
         LatLng llAversa = new LatLng(40.9675999, 14.1996051);
 
-        mGoogleMap.addMarker(new MarkerOptions().position(llAversa).title("Locazione abitazione"));
+        mGoogleMap.addMarker(new MarkerOptions().position(llAversa).title("Locazione abitazione").title("La mia posizione"));
 
-        mGoogleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(llAversa, 10));
+        mGoogleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(llAversa, 15));
 
 
+    }
+
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if (requestCode == 3) {
+            if (resultCode == RESULT_OK) {
+                Place place = PlacePicker.getPlace(getApplicationContext(), data);
+                mGoogleMap.addMarker(new MarkerOptions().position(place.getLatLng()).title(place.getName().toString())
+                .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_BLUE)));
+                mGoogleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(place.getLatLng(), 15));
+                //String toastMsg = String.format("Place: %s", place.getName());
+                //Toast.makeText(this, toastMsg, Toast.LENGTH_LONG).show();
+            }
+        }
     }
 
 }
