@@ -43,6 +43,7 @@ public class AdapterPersonale extends ArrayAdapter<String> {
 
         if(b.equals("1")){
             imageButton.setImageResource(R.drawable.danger_button);
+            textView.setText("Anomalia Rilevata!");
         }
         if(b.equals("0")){
             imageButton.setImageResource(R.drawable.safe_button);

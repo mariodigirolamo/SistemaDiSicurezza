@@ -33,6 +33,8 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
+import org.w3c.dom.Text;
+
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -150,7 +152,6 @@ public class MainActivity extends AppCompatActivity {
         vcrono.setVisibility(View.GONE);
         vclick.setVisibility(View.GONE);
 
-
         //Di seguito scrivo l'ascoltatore di cambio dati nel database
 
         final ValueEventListener listen = new ValueEventListener() {
@@ -166,6 +167,7 @@ public class MainActivity extends AppCompatActivity {
                     store[tick] = 1;
                     Date d = Calendar.getInstance().getTime();
                     dataf[tick] = ("Segnalazione Gas " + DateFormat.getDateTimeInstance(DateFormat.FULL, DateFormat.FULL, Locale.ITALY).format(d));
+
 
                     asd = readFromFileTOTF(getApplicationContext());
                     int asd1 = Integer.valueOf(asd);
